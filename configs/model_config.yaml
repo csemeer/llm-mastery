@@ -1,0 +1,164 @@
+# Financial LLM Model Configuration
+
+# Model Architecture
+model:
+  # Vocabulary
+  vocab_size: 50000
+
+  # Model dimensions
+  d_model: 256
+  num_heads: 8
+  num_text_layers: 4
+  num_ts_layers: 3
+  num_fusion_layers: 2
+  d_ff: 1024
+
+  # Time series configuration
+  ts_input_dim: 7  # OHLCV + derived features
+  num_indicators: 20
+  max_seq_len_text: 512
+  max_seq_len_ts: 60  # ~3 months of trading days
+
+  # Regularization
+  dropout: 0.1
+
+  # Task heads
+  num_trading_actions: 3  # Buy, Sell, Hold
+  enable_risk_prediction: true
+  enable_portfolio_optimization: true
+
+# Training Configuration
+training:
+  # Data
+  seq_len: 60
+  train_ratio: 0.7
+  val_ratio: 0.15
+  test_ratio: 0.15
+
+  # Optimization
+  batch_size: 32
+  epochs: 50
+  learning_rate: 0.0003
+  weight_decay: 0.01
+  gradient_clip_norm: 1.0
+
+  # Learning rate scheduling
+  scheduler: "onecycle"  # "onecycle", "cosine", "step"
+  warmup_epochs: 5
+
+  # Data loading
+  num_workers: 4
+  pin_memory: true
+
+  # Checkpointing
+  checkpoint_dir: "checkpoints/financial_llm"
+  save_every: 10  # Save every N epochs
+  keep_best: true
+
+# Continual Learning Configuration
+continual_learning:
+  enabled: true
+
+  # EWC (Elastic Weight Consolidation)
+  ewc:
+    enabled: true
+    lambda: 100.0  # Regularization strength
+    fisher_samples: 100  # Number of samples for Fisher matrix
+
+  # Experience Replay
+  replay:
+    enabled: true
+    buffer_size: 10000
+    replay_ratio: 0.3  # 30% of batch from replay
+
+  # LoRA (Low-Rank Adaptation)
+  lora:
+    enabled: false  # Enable for efficient fine-tuning
+    rank: 8
+    alpha: 16.0
+    target_modules: ["W_q", "W_v"]
+    dropout: 0.1
+
+# Data Configuration
+data:
+  # Market data
+  market:
+    source: "yfinance"  # "yfinance", "alpha_vantage", "custom"
+    tickers: ["AAPL", "GOOGL", "MSFT"]
+    start_date: "2020-01-01"
+    end_date: "2024-01-01"
+    interval: "1d"  # 1d, 1h, 5m, etc.
+
+  # Technical indicators
+  indicators:
+    enabled: true
+    types: ["sma", "ema", "rsi", "macd", "bbands", "atr"]
+    custom_indicators: []
+
+  # Text data (SEC filings, news)
+  text:
+    enabled: false
+    sec_filings: true
+    news: false
+    earnings_transcripts: false
+
+  # Data preprocessing
+  preprocessing:
+    normalize: true
+    fill_na_method: "ffill"  # "ffill", "bfill", "interpolate"
+    remove_outliers: true
+    outlier_std: 3.0
+
+# Evaluation Configuration
+evaluation:
+  # Metrics to track
+  metrics:
+    - "accuracy"
+    - "sharpe_ratio"
+    - "max_drawdown"
+    - "win_rate"
+    - "profit_factor"
+    - "calmar_ratio"
+
+  # Backtesting
+  backtest:
+    initial_capital: 100000
+    commission: 0.001  # 0.1%
+    slippage: 0.0005   # 0.05%
+    benchmark: "SPY"
+
+  # Risk management
+  risk:
+    max_position_size: 0.2  # 20% of portfolio
+    stop_loss: 0.05         # 5%
+    take_profit: 0.15       # 15%
+
+# Production Configuration
+production:
+  # Daily updates
+  daily_update:
+    enabled: true
+    schedule: "0 18 * * 1-5"  # 6 PM on weekdays (cron format)
+    lookback_days: 30
+    update_epochs: 3
+    conservative_lr: 0.0001
+
+  # API deployment
+  api:
+    host: "0.0.0.0"
+    port: 8000
+    workers: 4
+    timeout: 30
+
+  # Monitoring
+  monitoring:
+    log_predictions: true
+    alert_on_error: true
+    performance_tracking: true
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/financial_llm.log"
+  console: true

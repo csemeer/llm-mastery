@@ -1,0 +1,56 @@
+# Large Model Configuration (for best performance)
+# Slower training, more parameters, better accuracy
+
+model:
+  vocab_size: 100000
+  d_model: 512
+  num_heads: 16
+  num_text_layers: 8
+  num_ts_layers: 6
+  num_fusion_layers: 3
+  d_ff: 2048
+  ts_input_dim: 7
+  num_indicators: 30
+  max_seq_len_text: 1024
+  max_seq_len_ts: 252  # Full trading year
+  dropout: 0.15
+  num_trading_actions: 3
+  enable_risk_prediction: true
+  enable_portfolio_optimization: true
+
+training:
+  seq_len: 120
+  train_ratio: 0.7
+  val_ratio: 0.15
+  batch_size: 64
+  epochs: 100
+  learning_rate: 0.0001
+  weight_decay: 0.01
+  num_workers: 8
+
+continual_learning:
+  enabled: true
+  ewc:
+    lambda: 200.0
+  replay:
+    buffer_size: 50000
+  lora:
+    enabled: true
+    rank: 16
+
+data:
+  market:
+    tickers: ["AAPL", "GOOGL", "MSFT", "TSLA", "NVDA", "AMD", "META", "AMZN"]
+    start_date: "2015-01-01"
+    end_date: "2024-01-01"
+  indicators:
+    types: ["sma", "ema", "rsi", "macd", "bbands", "atr", "obv", "adx", "stoch", "cci"]
+  text:
+    enabled: true
+    sec_filings: true
+    news: true
+
+evaluation:
+  backtest:
+    initial_capital: 1000000
+    commission: 0.0005  # Lower commission for large accounts

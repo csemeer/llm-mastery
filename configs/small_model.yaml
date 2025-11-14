@@ -1,0 +1,42 @@
+# Small Model Configuration (for quick testing/prototyping)
+# Faster training, fewer parameters
+
+model:
+  vocab_size: 10000
+  d_model: 128
+  num_heads: 4
+  num_text_layers: 2
+  num_ts_layers: 2
+  num_fusion_layers: 1
+  d_ff: 512
+  ts_input_dim: 7
+  num_indicators: 10
+  max_seq_len_text: 256
+  max_seq_len_ts: 30
+  dropout: 0.1
+  num_trading_actions: 3
+  enable_risk_prediction: false
+  enable_portfolio_optimization: false
+
+training:
+  seq_len: 30
+  train_ratio: 0.7
+  val_ratio: 0.15
+  batch_size: 16
+  epochs: 20
+  learning_rate: 0.001
+  weight_decay: 0.01
+  num_workers: 2
+
+continual_learning:
+  enabled: false
+
+data:
+  market:
+    tickers: ["AAPL"]
+    start_date: "2023-01-01"
+    end_date: "2024-01-01"
+
+evaluation:
+  backtest:
+    initial_capital: 10000
