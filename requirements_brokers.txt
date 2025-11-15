@@ -1,0 +1,48 @@
+# Broker Integration Requirements
+# Install with: pip install -r requirements_brokers.txt
+
+# Core dependencies
+pyyaml>=6.0
+cryptography>=41.0.0
+pandas>=2.0.0
+requests>=2.31.0
+
+# US Brokers
+# Alpaca
+alpaca-py>=0.9.0  # Alpaca trading API
+
+# Interactive Brokers
+ib-insync>=0.9.86  # Interactive Brokers API wrapper
+
+# TD Ameritrade
+tda-api>=1.5.0  # TD Ameritrade API
+selenium>=4.0.0  # Required for TD Ameritrade OAuth
+
+# Indian Brokers
+# Zerodha Kite
+kiteconnect>=4.0.0  # Zerodha Kite Connect API
+
+# Angel One
+smartapi-python>=1.3.0  # Angel One SmartAPI
+
+# Upstox
+upstox-python-sdk>=2.0.0  # Upstox API client
+
+# ICICI Direct
+# Note: ICICI Direct API access is limited to institutional clients
+# Individual traders should use web platform or mobile app
+
+# Optional: WebSocket support for real-time data
+websocket-client>=1.6.0
+websockets>=11.0
+
+# Optional: Advanced features
+python-dotenv>=1.0.0  # For .env file support
+tenacity>=8.2.0  # For retry logic
+ratelimit>=2.2.1  # For rate limiting
+
+# Development and testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-mock>=3.11.0
+black>=23.7.0  # Code formatting

@@ -1,0 +1,61 @@
+markets:
+  US:
+    market: US
+    timezone: America/New_York
+    trading_hours_start: '09:30'
+    trading_hours_end: '16:00'
+    currency: USD
+    default_exchange: NASDAQ
+  IN:
+    market: IN
+    timezone: Asia/Kolkata
+    trading_hours_start: '09:15'
+    trading_hours_end: '15:30'
+    currency: INR
+    default_exchange: NSE
+
+brokers:
+  alpaca:
+    type: alpaca
+    market: US
+    enabled: true
+    paper_trading: true
+    base_url: https://paper-api.alpaca.markets
+    data_feed: iex
+  interactive_brokers:
+    type: ibkr
+    market: US
+    enabled: false
+    paper_trading: true
+    host: 127.0.0.1
+    port: 7497
+    client_id: 1
+  td_ameritrade:
+    type: td_ameritrade
+    market: US
+    enabled: false
+    paper_trading: true
+  zerodha:
+    type: zerodha
+    market: IN
+    enabled: false
+    paper_trading: true
+    exchange: NSE
+  angel_one:
+    type: angel_one
+    market: IN
+    enabled: false
+    paper_trading: true
+    exchange: NSE
+  upstox:
+    type: upstox
+    market: IN
+    enabled: false
+    paper_trading: true
+    exchange: NSE
+  icici_direct:
+    type: icici_direct
+    market: IN
+    enabled: false
+    paper_trading: true
+    exchange: NSE

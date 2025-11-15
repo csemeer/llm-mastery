@@ -39,6 +39,7 @@ A sophisticated multi-modal AI for stock market trading:
 - **Multi-modal**: Text (SEC filings) + Time series (OHLCV)
 - **Continual Learning**: Daily updates without forgetting
 - **Production-Ready**: Backtesting, risk management, portfolio optimization
+- **Broker Integration**: US & Indian markets (Alpaca, Zerodha, etc.)
 - ~2-50M parameters (configurable)
 
 **Perfect for**:
@@ -111,6 +112,16 @@ pip install -r requirements_financial.txt
 python examples/quick_start.py  # 5-minute demo
 ```
 
+### For Broker Integration (New!)
+```bash
+pip install -r requirements_brokers.txt
+python scripts/broker_cli.py setup        # Create configuration
+python scripts/broker_cli.py add-credentials
+python scripts/broker_cli.py test alpaca  # Test connection
+```
+
+📄 **Documentation**: [BROKER_INTEGRATION.md](docs/BROKER_INTEGRATION.md)
+
 ---
 
 ## 📊 Comparison
@@ -169,6 +180,12 @@ llm-mastery/
 │   ├── data_processors/
 │   │   ├── market_data.py             # Market data fetching
 │   │   └── sec_filings.py             # SEC filing parsing
+│   ├── brokers/                       # Broker integrations (NEW!)
+│   │   ├── us/                        # US brokers (Alpaca, IBKR, TDA)
+│   │   ├── india/                     # Indian brokers (Zerodha, etc.)
+│   │   ├── factory.py                 # Broker factory
+│   │   ├── data_fetcher.py            # Unified data fetcher
+│   │   └── order_manager.py           # Order management
 │   └── utils/
 │       └── continual_learning.py      # EWC, Replay, LoRA
 │
